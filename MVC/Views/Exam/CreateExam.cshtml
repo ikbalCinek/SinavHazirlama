@@ -1,0 +1,131 @@
+﻿@model MVC.Models.ExamDto
+
+
+<h4>Sınav Oluşturma Ekranı</h4>
+<hr />
+<div class="row" style="margin-bottom:60px">
+    <div class="col-md-12">
+
+        
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input id="title" asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+
+                <textarea id="content" asp-for="Content" class="form-control">@Model.Content</textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+
+            @{
+                for (int i = 0; i < 4; i++)
+                {
+                    <div class="form-group">
+
+                        <label class="control-label"> Soru: @(i+1)</label>
+                        <textarea id='@(i.ToString())' class="form-control"></textarea>
+
+                    </div>
+
+                    @for (int j = 0; j < 4; j++)
+                    {
+                        <div class="form-group">
+                            <label id=' @(j+"a")' class="control-label">@(j+1)</label>
+
+                            <textarea id='@(i.ToString()+j.ToString())' class="form-control"></textarea>
+
+                        </div>
+                    }
+
+
+                    <div class="form-group">
+                          <label for="cars">Doğru Şık:</label>
+                          <select  name="cars" id='@("trueAnswer"+i)'>
+                              <option  value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                          </select>
+                        </div>
+
+                }
+
+            }
+
+            <div class="form-group">
+                <button id="Save"  class="btn btn-primary" >SAVE</button>
+            </div>
+        
+    </div>
+</div>
+
+
+@section Scripts{
+    @*<script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $("#Save").click(function () {
+                let trueAnswers = [];
+                var selecetedValue = "";
+                for (var i = 0; i < 4; i++) {
+
+                    $("trueAnswer" + i.toString()).change(function () {
+
+                        selecetedValue = $(this).children('option:selected').val();
+                        trueAnswers.push(selecetedValue);
+                    })
+
+                }
+                let questions = [];
+                let answers = [];
+                for (var i = 0; i < 4; i++) {
+
+                    for (var j = 0; j < 4; j++) {
+                        var IsTrueAns = selecetedValue == $("#" + j.toString() + 'a').text();
+                        var answer = { Text: $("#" + i.toString() + j.toString()).val() }
+                        if (IsTrue) {
+                            answer.IsTrue = IsTrueAns;
+                        }
+                        answers.push(answer);
+                    }
+                    var question = {
+                        Main: $("#" + i.toString()).val(),
+                        Answers: answers
+                    }
+                    questions.push(question)
+                }
+                var exam = {
+                    Title: $("#title").val(),
+                    Content: $("#content").val(),
+                    Questions: questions
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Exam/CreateExam',
+                    data: JSON.stringify(exam),
+                    success: function (data) {
+                        console.log(data)
+
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+
+            })
+        })
+       
+    </script>*@
+
+
+
+}
